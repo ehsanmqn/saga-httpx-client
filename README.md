@@ -61,6 +61,18 @@ await client.delete_group(group_id)
 - `group_id`: The ID of the group to delete.
 - **Returns:** A list of hosts where the deletion failed.
 
+## Running using Docker
+
+To build and run Docker image, you would typically use the following commands:
+
+```bash
+# Build the Docker image
+docker build -t saga-httpx-client .
+
+# Run the Docker container
+docker run --network="host" -it --rm saga-httpx-client
+```
+
 ## Utilizing the Saga Design Pattern
 
 The `SagaCoordinator` class implements the Saga design pattern for managing distributed transactions, ensuring consistency across multiple hosts during group operations. The Saga pattern involves breaking down a complex operation into a series of smaller, isolated transactions that are either completed successfully or compensated if they fail.
