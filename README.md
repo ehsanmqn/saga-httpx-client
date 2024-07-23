@@ -81,27 +81,6 @@ async def main():
 asyncio.run(main())
 ```
 
-## Utilizing the [Saga Design Pattern](https://microservices.io/patterns/data/saga.html)
-
-The `SagaCoordinator` class implements the Saga design pattern for managing distributed transactions, ensuring consistency across multiple hosts during group operations. The Saga pattern involves breaking down a complex operation into a series of smaller, isolated transactions that are either completed successfully or compensated if they fail.
-
-### How It Works
-
-1. **Initiate Transactions:**
-   - The `SagaCoordinator` class starts by attempting to create a group on all specified hosts.
-   - Successful creation on each host is tracked in the `success_hosts` list.
-
-2. **Verify Transactions:**
-   - After all creation attempts, the coordinator verifies if the group was successfully created on each host. This section has implemented to increase consistency across nodes. Although additional GET requests add extra load and can impact system performance, especially under high traffic, they help identify if the creation failed silently or if the POST request was partially successful. This is particularly useful in distributed systems to verify that all nodes have eventually reached a consistent state.
-   - If any verification fails, a rollback is triggered.
-
-3. **Rollback:**
-   - If any operation fails during creation or verification, the `rollback_creation` method is invoked.
-   - This method attempts to delete the group from all hosts where it was successfully created and checks if the rollback was successful.
-   - Any hosts where the rollback fails are reported.
-
-
-
 ## Docker
 
 To build and run Docker image, you would typically use the following commands:
@@ -134,3 +113,25 @@ Logging is configured to provide information about the success and failure of op
 ## Configuration
 
 The `HOSTS` list can be configured in the `config` module to specify the cluster of hosts.
+
+
+
+## Utilizing the [Saga Design Pattern](https://microservices.io/patterns/data/saga.html)
+
+The `SagaCoordinator` class implements the Saga design pattern for managing distributed transactions, ensuring consistency across multiple hosts during group operations. The Saga pattern involves breaking down a complex operation into a series of smaller, isolated transactions that are either completed successfully or compensated if they fail.
+
+### How It Works
+
+1. **Initiate Transactions:**
+   - The `SagaCoordinator` class starts by attempting to create a group on all specified hosts.
+   - Successful creation on each host is tracked in the `success_hosts` list.
+
+2. **Verify Transactions:**
+   - After all creation attempts, the coordinator verifies if the group was successfully created on each host. This section has implemented to increase consistency across nodes. Although additional GET requests add extra load and can impact system performance, especially under high traffic, they help identify if the creation failed silently or if the POST request was partially successful. This is particularly useful in distributed systems to verify that all nodes have eventually reached a consistent state.
+   - If any verification fails, a rollback is triggered.
+
+3. **Rollback:**
+   - If any operation fails during creation or verification, the `rollback_creation` method is invoked.
+   - This method attempts to delete the group from all hosts where it was successfully created and checks if the rollback was successful.
+   - Any hosts where the rollback fails are reported.
+
