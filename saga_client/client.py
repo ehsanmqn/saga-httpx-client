@@ -10,7 +10,7 @@ from .exceptions import RequestErrorException
 logger = logging.getLogger(__name__)
 
 
-class ClusterClient:
+class SagaClient:
     def __init__(self, hosts: List[str] = HOSTS):
         self.hosts = hosts
 
@@ -133,8 +133,8 @@ class ClusterClient:
                         logger.error(f'Group {group_id} still exists on {host} after rollback attempt')
                         undeleted_hosts.append(host)
 
-            except RequestErrorException as e:
-                logger.error(f'Error during rollback on {host}: {e}')
+            except RequestErrorException as exc:
+                logger.error(f'Error during rollback on {host}: {exc}')
                 undeleted_hosts.append(host)
 
         if len(undeleted_hosts) == 0:
@@ -170,8 +170,8 @@ class ClusterClient:
                         logger.warning(f'Deletion failed on host {host}')
                         continue
                     undeleted_hosts.remove(host)
-                except Exception as e:
-                    logger.error(f'Error during deletion on host {host}: {e}')
+                except Exception as exc:
+                    logger.error(f'Error during deletion on host {host}: {exc}')
                     continue
 
         return undeleted_hosts

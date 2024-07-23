@@ -34,14 +34,15 @@ class SagaCoordinator:
                     else:
                         raise GroupOperationException(f'Failed to create group on {host}, initiating rollback.')
 
+                # Verify creation
                 for host in success_hosts:
                     if not await self.cluster_client.verify_group_on_host(client, host, group_id):
                         raise GroupOperationException(f'Failed to verify group on {host}, initiating rollback.')
 
                 return True
 
-            except GroupOperationException as e:
-                logger.error(f'Error during group creation. Detail: {e}')
+            except GroupOperationException as exc:
+                logger.error(f'Error during group creation. Detail: {exc}')
 
                 if success_hosts:
                     undeleted_hosts = await self.cluster_client.rollback_creation(client, group_id, success_hosts)

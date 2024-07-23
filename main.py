@@ -1,6 +1,6 @@
 import asyncio
 import logging
-from saga_client.client import ClusterClient
+from saga_client.client import SagaClient
 from saga_client.config import HOSTS
 
 logging.basicConfig(level=logging.INFO)
@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 async def main():
-    client = ClusterClient(hosts=HOSTS)
+    client = SagaClient(hosts=HOSTS)
     group_id = 'example_group'
 
     # Create a group
