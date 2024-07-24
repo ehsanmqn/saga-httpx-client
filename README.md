@@ -106,15 +106,14 @@ pytest tests/test_client.py
 - **RequestErrorException**: Raised for request errors during group operations.
 - **GroupOperationException**: Raised during the group creation or verification process, triggering rollback if necessary.
 
-## Logging
-
-Logging is configured to provide information about the success and failure of operations. Ensure that the logging configuration is set up in your application to capture these logs.
 
 ## Configuration
 
-The `HOSTS` list can be configured in the `config` module to specify the cluster of hosts.
+The HOSTS list can be configured in the config module to specify the cluster of hosts, or it can be set through environment variables.
 
-
+```shell
+export HOSTS="http://localhost:8000,http://localhost:8001,http://localhost:8002"
+```
 
 ## Utilizing the [Saga Design Pattern](https://microservices.io/patterns/data/saga.html)
 
