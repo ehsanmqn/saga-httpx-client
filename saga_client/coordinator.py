@@ -41,7 +41,7 @@ class SagaCoordinator:
 
                 return True
 
-            except GroupOperationException as exc:
+            except Exception as exc:
                 logger.error(f'Error during group creation. Detail: {exc}')
 
                 if success_hosts:
